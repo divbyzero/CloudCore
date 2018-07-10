@@ -55,6 +55,29 @@ public class FetchAndSaveOperation: Operation {
 		
 		for database in self.databases {
 			self.addRecordZoneChangesOperation(recordZoneIDs: [CloudCore.config.zoneID], database: database, context: backgroundContext)
+
+//            // debug print all
+//            database.fetchAllRecordZones { zones, error in
+//                guard let zones = zones, error == nil else {
+//                    print(error!)
+//                    return
+//                }
+//
+//                // The true predicate represents a query for all records.
+//                let alwaysTrue = NSPredicate(value: true)
+//                for zone in zones {
+//
+//                    let query = CKQuery(recordType: "Rule", predicate: alwaysTrue)
+//                    database.perform(query, inZoneWith: zone.zoneID) { records, error in
+//                        guard let records = records, error == nil else {
+//                            print("An error occurred fetching these records.")
+//                            return
+//                        }
+//
+//                        self.printRecords(records)
+//                    }
+//                }
+//            }
 		}
 		
 		self.queue.waitUntilAllOperationsAreFinished()
@@ -116,5 +139,19 @@ public class FetchAndSaveOperation: Operation {
 		default: errorBlock?(cloudError)
 		}
 	}
+    
+    func printRecords(_ records: [CKRecord]) {
+        print("COUNT = ", records.count)
+        
+        for record in records {
+            print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+            for key in record.allKeys() {
+                let value = record[key]
+                print(key + " = " + (value?.description ?? ""))
+            }
+            print("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
+            print(" ")
+        }
+    }
 	
 }
