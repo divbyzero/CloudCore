@@ -73,12 +73,18 @@ class RecordToCoreDataOperation: AsynchronousOperation {
 	///   - entityName: entity name of `object`
 	///   - recordDataAttributeName: attribute name containing recordData
 	private func fill(object: NSManagedObject, entityName: String, serviceAttributeNames: ServiceAttributeNames, context: NSManagedObjectContext) throws {
+        let objectKeys = Array(object.entity.attributesByName.keys)
+        
 		for key in record.allKeys() {
 			let recordValue = record.value(forKey: key)
 			
 			let attribute = CloudKitAttribute(value: recordValue, fieldName: key, entityName: entityName, serviceAttributes: serviceAttributeNames, context: context)
 			let coreDataValue = try attribute.makeCoreDataValue()
-			object.setValue(coreDataValue, forKey: key)
+            
+            // check key exists before setting values
+            if objectKeys.contains(key) {
+                object.setValue(coreDataValue, forKey: key)
+            }
 		}
 		
 		// Set system headers
