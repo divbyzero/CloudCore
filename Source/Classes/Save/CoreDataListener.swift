@@ -97,7 +97,7 @@ class CoreDataListener {
 
 		switch cloudError.code {
 		// Zone was accidentally deleted (NOT PURGED), we need to reupload all data accroding Apple Guidelines
-		case .zoneNotFound:
+		case .zoneNotFound, .userDeletedZone:
 			cloudSaveOperationQueue.cancelAllOperations()
 			
 			// Create CloudCore Zone
