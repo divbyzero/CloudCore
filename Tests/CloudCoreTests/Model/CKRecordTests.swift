@@ -13,7 +13,7 @@ import CloudKit
 
 class CKRecordTests: XCTestCase {
 	func testEncodeAndInit() {
-		let zoneID = CKRecordZoneID(zoneName: "zone", ownerName: CKCurrentUserDefaultName)
+		let zoneID = CKRecordZone.ID(zoneName: "zone", ownerName: CKCurrentUserDefaultName)
 		let record = CKRecord(recordType: "type", zoneID: zoneID)
 		record.setValue("testValue", forKey: "testKey")
 		

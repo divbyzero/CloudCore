@@ -13,11 +13,11 @@ import CloudKit
 
 class CKRecordIDTests: XCTestCase {
 	func testRecordIDEncodeDecode() {
-		let zoneID = CKRecordZoneID(zoneName: CloudCore.config.zoneID.zoneName, ownerName: CKCurrentUserDefaultName)
-		let recordID = CKRecordID(recordName: "testName", zoneID: zoneID)
+		let zoneID = CKRecordZone.ID(zoneName: CloudCore.config.zoneID.zoneName, ownerName: CKCurrentUserDefaultName)
+		let recordID = CKRecord.ID(recordName: "testName", zoneID: zoneID)
 		
 		let encodedString = recordID.encodedString
-		let restoredRecordID = CKRecordID(encodedString: encodedString)
+		let restoredRecordID = CKRecord.ID(encodedString: encodedString)
 		
 		XCTAssertEqual(recordID.recordName, restoredRecordID?.recordName)
 		XCTAssertEqual(recordID.zoneID, restoredRecordID?.zoneID)
